@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react"
+import WasteVision from "./components/WasteVision"
 
 function App() {
   const [time, setTime] = useState(new Date())
+  const [page, setPage] = useState("dashboard")
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -14,52 +16,105 @@ function App() {
     
     <div className="min-h-screen bg-slate-950 text-white flex">
       <aside className="w-64 bg-slate-900 border-r border-cyan-500/20 p-6">
-        <h1 className="text-2xl font-bold text-cyan-400">CivicGuardian</h1>
+       <h1
+  onClick={() => setPage("dashboard")}
+  className="text-2xl font-bold text-cyan-400 cursor-pointer"
+>
+  CivicGuardian
+</h1>
         <p className="text-sm text-slate-400 mt-1">AI Command Center</p>
 
-        <nav className="mt-10 space-y-4">
-          <p className="text-cyan-400">🏙 Dashboard</p>
-          <p className="text-slate-300">♻️ WasteVision</p>
-          <p className="text-slate-300">💧 WaterGuardian</p>
-          <p className="text-slate-300">🚶 SafeRoute</p>
-          <p className="text-slate-300">📊 Analytics</p>
-        </nav>
+        <nav className="mt-10 space-y-3">
+  <button
+    onClick={() => setPage("dashboard")}
+    className={`w-full text-left px-4 py-3 rounded-full transition-all duration-300 cursor-pointer
+      ${
+        page === "dashboard"
+          ? "bg-cyan-500/20 text-cyan-400"
+          : "text-slate-300 hover:bg-slate-800 hover:text-cyan-300"
+      }`}
+  >
+    🏙 Dashboard
+  </button>
+
+  <button
+    onClick={() => setPage("wastevision")}
+    className={`w-full text-left px-4 py-3 rounded-full transition-all duration-300 cursor-pointer
+      ${
+        page === "wastevision"
+          ? "bg-cyan-500/20 text-cyan-400"
+          : "text-slate-300 hover:bg-slate-800 hover:text-cyan-300"
+      }`}
+  >
+    ♻️ WasteVision
+  </button>
+
+  <button className="w-full text-left px-4 py-3 rounded-full text-slate-300 hover:bg-slate-800 hover:text-cyan-300 transition-all duration-300 cursor-pointer">
+    💧 WaterGuardian
+  </button>
+
+  <button className="w-full text-left px-4 py-3 rounded-full text-slate-300 hover:bg-slate-800 hover:text-cyan-300 transition-all duration-300 cursor-pointer">
+    🚶 SafeRoute
+  </button>
+
+  <button className="w-full text-left px-4 py-3 rounded-full text-slate-300 hover:bg-slate-800 hover:text-cyan-300 transition-all duration-300 cursor-pointer">
+    📊 Analytics
+  </button>
+</nav>
       </aside>
 
       <main className="flex-1 p-8">
-        <h2 className="text-4xl font-bold">Smart City Command Center</h2>
-        <p className="text-cyan-400 mt-2">
-  Live Monitoring • {time.toLocaleTimeString()}
-</p>
-        <p className="text-slate-400 mt-2">
-          Monitoring safer, cleaner and flood-resilient cities using AI.
-        </p>
 
-        <div className="grid grid-cols-4 gap-6 mt-8">
-          <Card title="Waste Alerts" value="24" />
-          <Card title="Flood Risk Zones" value="7" />
-          <Card title="Unsafe Roads" value="12" />
-          <Card title="Civic Score" value="82%" />
-        </div>
+  {page === "dashboard" && (
+    <>
+      <h2 className="text-4xl font-bold">
+        Smart City Command Center
+      </h2>
 
-        <div className="mt-8 grid grid-cols-3 gap-6">
-          <section className="col-span-2 h-96 rounded-2xl bg-slate-900 border border-cyan-500/20 p-6">
-            <h3 className="text-xl font-semibold text-cyan-400">City Risk Map</h3>
-            <div className="h-full flex items-center justify-center text-slate-500">
-              Map integration coming soon
-            </div>
-          </section>
+      <p className="text-cyan-400 mt-2">
+        Live Monitoring • {time.toLocaleTimeString()}
+      </p>
 
-          <section className="rounded-2xl bg-slate-900 border border-cyan-500/20 p-6">
-            <h3 className="text-xl font-semibold text-cyan-400">Live Alerts</h3>
-            <div className="mt-6 space-y-4 text-sm">
-              <Alert color="red" text="High garbage accumulation near Zone 4" />
-              <Alert color="yellow" text="Moderate flood risk near Main Road" />
-              <Alert color="green" text="SafeRoute active for Night Mode" />
-            </div>
-          </section>
-        </div>
-      </main>
+      <p className="text-slate-400 mt-2">
+        Monitoring safer, cleaner and flood-resilient cities using AI.
+      </p>
+
+      <div className="grid grid-cols-4 gap-6 mt-8">
+        <Card title="Waste Alerts" value="24" />
+        <Card title="Flood Risk Zones" value="7" />
+        <Card title="Unsafe Roads" value="12" />
+        <Card title="Civic Score" value="82%" />
+      </div>
+
+      <div className="mt-8 grid grid-cols-3 gap-6">
+        <section className="col-span-2 h-96 rounded-2xl bg-slate-900 border border-cyan-500/20 p-6">
+          <h3 className="text-xl font-semibold text-cyan-400">
+            City Risk Map
+          </h3>
+
+          <div className="h-full flex items-center justify-center text-slate-500">
+            Map integration coming soon
+          </div>
+        </section>
+
+        <section className="rounded-2xl bg-slate-900 border border-cyan-500/20 p-6">
+          <h3 className="text-xl font-semibold text-cyan-400">
+            Live Alerts
+          </h3>
+
+          <div className="mt-6 space-y-4 text-sm">
+            <Alert color="red" text="High garbage accumulation near Zone 4" />
+            <Alert color="yellow" text="Moderate flood risk near Main Road" />
+            <Alert color="green" text="SafeRoute active for Night Mode" />
+          </div>
+        </section>
+      </div>
+    </>
+  )}
+
+  {page === "wastevision" && <WasteVision />}
+
+</main>
     </div>
   )
 }
