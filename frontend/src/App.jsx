@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import WasteVision from "./components/WasteVision"
 import WaterGuardian from "./components/WaterGuardian"
 import SafeRoute from "./components/SafeRoute"
+import Analytics from "./components/Analytics"
 
 function App() {
   const [time, setTime] = useState(new Date())
@@ -75,9 +76,17 @@ function App() {
   🚶 SafeRoute
 </button>
 
-  <button className="w-full text-left px-4 py-3 rounded-full text-slate-300 hover:bg-slate-800 hover:text-cyan-300 transition-all duration-300 cursor-pointer">
-    📊 Analytics
-  </button>
+  <button
+  onClick={() => setPage("analytics")}
+  className={`w-full text-left px-4 py-3 rounded-full transition-all duration-300 cursor-pointer
+    ${
+      page === "analytics"
+        ? "bg-cyan-500/20 text-cyan-400"
+        : "text-slate-300 hover:bg-slate-800 hover:text-cyan-300"
+    }`}
+>
+  📊 Analytics
+</button>
 </nav>
       </aside>
 
@@ -133,7 +142,7 @@ function App() {
   {page === "wastevision" && <WasteVision />}
   {page === "waterguardian" && <WaterGuardian />}
   {page === "saferoute" && <SafeRoute />}
-
+  {page === "analytics" && <Analytics />}
 </main>
     </div>
   )
