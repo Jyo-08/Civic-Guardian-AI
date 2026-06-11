@@ -2,6 +2,8 @@ import { useState } from "react"
 
 function WasteVision() {
   const [image, setImage] = useState(null)
+  const [result, setResult] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0]
@@ -9,6 +11,20 @@ function WasteVision() {
       setImage(URL.createObjectURL(file))
     }
   }
+  const analyzeWaste = () => {
+  setLoading(true)
+  setResult(null)
+
+  setTimeout(() => {
+    setResult({
+      status: "Overflowing Bin",
+      confidence: "92%",
+      risk: "High",
+      action: "Immediate waste collection required",
+    })
+    setLoading(false)
+  }, 1500)
+}
 
   return (
     <div>
@@ -62,11 +78,25 @@ function WasteVision() {
     />
 
     <button
-      className="mt-6 px-6 py-3 rounded-xl bg-cyan-500 text-slate-950 font-semibold hover:bg-cyan-400 transition-all duration-300"
-    >
-      Analyze Waste
-    </button>
+  onClick={analyzeWaste}
+  className="mt-6 px-6 py-3 rounded-xl bg-cyan-500 text-slate-950 font-semibold hover:bg-cyan-400 transition-all duration-300"
+>
+  {loading ? "Analyzing..." : "Analyze Waste"}
+</button>
+{result && (
+  <div className="mt-6 rounded-2xl bg-slate-950 border border-red-500/30 p-5">
+    <p className="text-red-400 font-semibold text-lg">
+      Waste Analysis Complete
+    </p>
 
+    <div className="mt-4 space-y-2 text-slate-300">
+      <p>Status: <span className="text-white">{result.status}</span></p>
+      <p>Confidence: <span className="text-cyan-400">{result.confidence}</span></p>
+      <p>Risk Level: <span className="text-red-400">{result.risk}</span></p>
+      <p>Recommended Action: <span className="text-white">{result.action}</span></p>
+    </div>
+  </div>
+)}
   </div>
 )}
     </div>
